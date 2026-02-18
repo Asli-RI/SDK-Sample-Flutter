@@ -7,6 +7,10 @@
 .buildlog/
 .history
 
+*.apk
+/build/
+android/app/release/
+
 
 
 # Flutter repo-specific

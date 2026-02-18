@@ -1,0 +1,4 @@
+storePassword=demopassiveliveness
+keyPassword=demopassiveliveness
+keyAlias=key_passive_liveness
+storeFile=key.jks

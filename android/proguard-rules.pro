@@ -1,0 +1,3 @@
+-keep class com.asliri.** { *; }
+-dontwarn com.asliri.**
+-keepclassmembers class com.asliri.** { *; }

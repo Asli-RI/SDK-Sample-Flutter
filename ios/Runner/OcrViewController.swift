@@ -1,24 +1,24 @@
 //
-//  LivenessViewController.swift
+//  OcrViewController.swift
 //  Runner
 //
 //  Created by Putra Rolli on 14/01/25.
 //
 import Foundation
-import AsliPassiveLiveness
+import AsliOCR
 import UIKit
 
-protocol LivenessViewControllerDelegate: AnyObject {
-    func didCompleteLiveness(result: String)
+protocol OcrViewControllerDelegate: AnyObject {
+    func didCompleteOcr(result: String)
 }
 
-class LivenessViewController : ContainerViewController {
+class OcrViewController : ContainerViewController {
     
-    var controller: AsliPassiveLivenessViewController?
-    weak var delegate: LivenessViewControllerDelegate?
+    var controller: AsliOCRViewController?
+    weak var delegate: OcrViewControllerDelegate?
     
     init() {
-        controller = AsliPassiveLivenessViewController.create(token: "4cdfb7dd-b690-45db-8f0c-e5a8c0813d1a")
+        controller = AsliOCRViewController.create(token: "4cdfb7dd-b690-45db-8f0c-e5a8c0813d1a")
         super.init(viewController: controller!)
     }
     
@@ -39,20 +39,28 @@ class LivenessViewController : ContainerViewController {
     
 }
 
-extension LivenessViewController: UIGestureRecognizerDelegate {
+extension OcrViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-extension LivenessViewController: AsliPassiveLivenessViewControllerDelegate {
-    func didLivenessSuccess(image: UIImage, result: Bool) {
-        showDialog(result: result)
+extension OcrViewController: AsliOCRViewControllerDelegate {
+    func didScanSuccess(image: UIImage, ocr: NSDictionary) {
+        let resultString = "Success: \(ocr)"
+        self.dismiss(animated: true) {
+            self.delegate?.didCompleteOcr(result: resultString)
+        }
     }
     
-    func didLivenessFailure(code: Int, errorMessage: String) {
-        self.navigationController?.popViewController(animated: true)
-        self.delegate?.didCompleteLiveness(result: "\(errorMessage)")
+    func didScanFailure(code: Int, errorMessage: String) {
+        self.dismiss(animated: true) {
+            self.delegate?.didCompleteOcr(result: "Failed: \(code) - \(errorMessage)")
+        }
+    }
+    
+    func didRetryScan() {
+        
     }
     
     func didTapRetake() {
@@ -62,8 +70,9 @@ extension LivenessViewController: AsliPassiveLivenessViewControllerDelegate {
     func showDialog(result: Bool) {
         let alert = UIAlertController(title: "Sukses", message: "\(result)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-            self.navigationController?.popViewController(animated: true)
-            self.delegate?.didCompleteLiveness(result: "\(result)")
+            self.dismiss(animated: true) {
+                self.delegate?.didCompleteOcr(result: "\(result)")
+            }
         }))
         self.present(alert, animated: true, completion: nil)
     }

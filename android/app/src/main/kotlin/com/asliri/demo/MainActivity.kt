@@ -21,7 +21,7 @@ class MainActivity : FlutterActivity() {
                     when (call.method) {
                         "startLiveness" -> {
                             startActivityForResult(
-                                Intent(this, LivenessActivity::class.java),
+                                Intent(this, OcrActivity::class.java),
                                 LIVENESS_REQUEST_CODE
                             )
                             result.success(null)
@@ -41,8 +41,10 @@ class MainActivity : FlutterActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == LIVENESS_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                val livenessResult = data?.getStringExtra("livenessResult") ?: "No result"
-                methodResult?.success(livenessResult)
+                val ocrResult = data?.getStringExtra("ocrResult") 
+                    ?: data?.getStringExtra("livenessResult") 
+                    ?: "No result"
+                methodResult?.success(ocrResult)
             } else {
                 methodResult?.success("Liveness canceled or failed")
             }

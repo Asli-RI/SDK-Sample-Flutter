@@ -5,27 +5,27 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.asliri.aslipassiveliveness.sdk.AsliPassiveLivenessContainer
-import com.asliri.aslipassiveliveness.sdk.AsliPassiveLivenessListener
-import com.asliri.aslipassiveliveness.sdk.AsliPassiveLivenessSDK
+import com.asliri.ocr.sdk.AsliOcrContainer
+import com.asliri.ocr.sdk.AsliOcrListener
+import com.asliri.ocr.sdk.AsliOcrSDK
 import com.asliri.demo.databinding.ActivityDemoBinding
 
-class LivenessActivity : AppCompatActivity(), AsliPassiveLivenessListener {
+class OcrActivity : AppCompatActivity(), AsliOcrListener {
 
     private val binding by lazy {
         ActivityDemoBinding.inflate(layoutInflater)
     }
-    private val sdk by lazy {
-        AsliPassiveLivenessSDK.getInstance(this)
+    private val asliOcr by lazy {
+        AsliOcrSDK.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        sdk.initialize("4cdfb7dd-b690-45db-8f0c-e5a8c0813d1a")
-        sdk.passiveLiveness(
-            container = AsliPassiveLivenessContainer(
+        asliOcr.initialize("4cdfb7dd-b690-45db-8f0c-e5a8c0813d1a")
+        asliOcr.ocr(
+            container = AsliOcrContainer(
                 fragmentManager = supportFragmentManager,
                 containerId = binding.frameContainer.id
             ),
@@ -33,18 +33,18 @@ class LivenessActivity : AppCompatActivity(), AsliPassiveLivenessListener {
         )
     }
 
-    override fun onPassiveLivenessFailure(code: Int, message: String) {
+    override fun onScanFailure(code: Int, message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 //        val intent = Intent().apply {
-//            putExtra("livenessResult", "Failed: $code - $message")
+//            putExtra("ocrResult", "Failed: $code - $message")
 //        }
 //        setResult(RESULT_OK, intent)
 //        finish()
     }
 
-    override fun onPassiveLivenessSuccess(bitmap: Bitmap, result: Boolean) {
+    override fun onScanSuccess(bitmap: Bitmap, ocrData: String) {
         val intent = Intent().apply {
-            putExtra("livenessResult", "Success: $result")
+            putExtra("ocrResult", "Success: $ocrData")
         }
         setResult(RESULT_OK, intent)
         finish()

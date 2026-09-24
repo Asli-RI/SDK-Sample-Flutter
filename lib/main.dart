@@ -31,14 +31,14 @@ class LivenessWidget extends StatefulWidget {
 }
 
 class LivenessWidgetState extends State<LivenessWidget> {
-  String livenessResult = "";
+  String ocrResult = "";
 
   // Fungsi untuk memulai scan liveness
   void startScan() async {
     await FlutterBridge.startLiveness();
     String result = await FlutterBridge.getResult();
     setState(() {
-      livenessResult = result; // Simpan hasil liveness ke dalam state
+      ocrResult = result; // Simpan hasil liveness ke dalam state
     });
   }
 
@@ -47,7 +47,7 @@ class LivenessWidgetState extends State<LivenessWidget> {
     print("Building LivenessWidget");
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Liveness Scan'),
+        title: const Text('OCR Scan'),
       ),
       body: Container(
         color: Colors.white, // Tambahkan warna untuk memastikan elemen tampil
@@ -61,13 +61,11 @@ class LivenessWidgetState extends State<LivenessWidget> {
                   backgroundColor: const Color(0xFFF12A37),
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Start passive liveness'),
+                child: const Text('Start OCR'),
               ),
               const SizedBox(height: 20),
               Text(
-                livenessResult.isNotEmpty
-                    ? 'Liveness Result: $livenessResult'
-                    : '',
+                ocrResult.isNotEmpty ? 'OCR Result: $ocrResult' : '',
                 style: const TextStyle(fontSize: 16),
               ),
             ],

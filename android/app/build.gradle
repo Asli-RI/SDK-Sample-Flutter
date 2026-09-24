@@ -58,7 +58,7 @@ android {
         viewBinding = true
     }
     dependencies {
-        implementation("com.github.Asli-RI:asli-smile-android:2.0.17@aar") {
+        implementation("com.github.Asli-RI:asli-smile-android:2.0.20@aar") {
            setTransitive(true)
         }
         implementation("com.google.android.material:material:1.12.0")

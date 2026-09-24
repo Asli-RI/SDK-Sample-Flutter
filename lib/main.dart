@@ -61,7 +61,7 @@ class LivenessWidgetState extends State<LivenessWidget> {
                   backgroundColor: const Color(0xFFF12A37),
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Start smile liveness'),
+                child: const Text('Start passive liveness'),
               ),
               const SizedBox(height: 20),
               Text(

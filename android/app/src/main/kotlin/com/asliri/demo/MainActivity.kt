@@ -10,19 +10,19 @@ class MainActivity : FlutterActivity() {
     private var methodResult: MethodChannel.Result? = null
 
     companion object {
-        private const val LIVENESS_REQUEST_CODE = 1001
+        private const val OCR_REQUEST_CODE = 1001
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         flutterEngine.dartExecutor.binaryMessenger.let {
-            MethodChannel(it, "com.asliri.demo/liveness")
+            MethodChannel(it, "com.asliri.demo/ocr")
                 .setMethodCallHandler { call, result ->
                     when (call.method) {
-                        "startLiveness" -> {
+                        "startOcr" -> {
                             startActivityForResult(
                                 Intent(this, OcrActivity::class.java),
-                                LIVENESS_REQUEST_CODE
+                                OCR_REQUEST_CODE
                             )
                             result.success(null)
                         }
@@ -39,14 +39,14 @@ class MainActivity : FlutterActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == LIVENESS_REQUEST_CODE) {
+        if (requestCode == OCR_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 val ocrResult = data?.getStringExtra("ocrResult") 
-                    ?: data?.getStringExtra("livenessResult") 
+                    ?: data?.getStringExtra("ocrResult") 
                     ?: "No result"
                 methodResult?.success(ocrResult)
             } else {
-                methodResult?.success("Liveness canceled or failed")
+                methodResult?.success("Ocr canceled or failed")
             }
             methodResult = null
         }

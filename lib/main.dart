@@ -8,43 +8,43 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  // Fungsi untuk memulai liveness
+  // Fungsi untuk memulai
   void startScan() async {
-    await FlutterBridge.startLiveness();
+    await FlutterBridge.startOcr();
     await FlutterBridge.getResult();
-    // print("liveness Result: $result");
+    // print("ocr Result: $result");
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LivenessWidget(),
+      home: const OcrWidget(),
     );
   }
 }
 
-class LivenessWidget extends StatefulWidget {
-  const LivenessWidget({super.key});
+class OcrWidget extends StatefulWidget {
+  const OcrWidget({super.key});
 
   @override
-  LivenessWidgetState createState() => LivenessWidgetState();
+  OcrWidgetState createState() => OcrWidgetState();
 }
 
-class LivenessWidgetState extends State<LivenessWidget> {
+class OcrWidgetState extends State<OcrWidget> {
   String ocrResult = "";
 
-  // Fungsi untuk memulai scan liveness
+  // Fungsi untuk memulai scan
   void startScan() async {
-    await FlutterBridge.startLiveness();
+    await FlutterBridge.startOcr();
     String result = await FlutterBridge.getResult();
     setState(() {
-      ocrResult = result; // Simpan hasil liveness ke dalam state
+      ocrResult = result; // Simpan hasil ocr ke dalam state
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Building LivenessWidget");
+    print("Building OcrWidget");
     return Scaffold(
       appBar: AppBar(
         title: const Text('OCR Scan'),
